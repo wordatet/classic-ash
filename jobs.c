@@ -100,9 +100,6 @@ void
 setjobctl(on) 
 	int on;
 {
-#ifdef OLD_TTY_DRIVER
-	int ldisc;
-#endif
 
 	if (on == jobctl || rootshell == 0)
 		return;
@@ -120,13 +117,6 @@ setjobctl(on)
 				continue;
 			}
 		} while (0);
-#ifdef OLD_TTY_DRIVER
-		if (ioctl(2, TIOCGETD, (char *)&ldisc) < 0 || ldisc != NTTYDISC) {
-			out2str("sh: need new tty driver to run job control; job control turned off\n");
-			mflag = 0;
-			return;
-		}
-#endif
 		setsignal(SIGTSTP);
 		setsignal(SIGTTOU);
 		setsignal(SIGTTIN);

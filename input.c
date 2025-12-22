@@ -203,7 +203,12 @@ retry:
 			i = 0;
 			goto eof;
 		}
-		strcpy(p, rl_cp);  /* XXX - BUFSIZE should redesign so not necessary */
+		if (len >= BUFSIZ) {
+			out2str("sh: command line too long; truncating\n");
+			len = BUFSIZ - 1;
+		}
+		memcpy(p, rl_cp, len);
+		p[len] = '\0';
 		i = len;
 
 	} else {

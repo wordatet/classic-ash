@@ -352,7 +352,11 @@ exitshell(status)
 	struct jmploc loc1, loc2;
 	char *p;
 
+	sigset_t sigset;
+
 	TRACE(("exitshell(%d) pid=%d\n", status, getpid()));
+	sigfillset(&sigset);
+	sigprocmask(SIG_SETMASK, &sigset, NULL);
 	if (setjmp(loc1.loc)) {
 		goto l1;
 	}
