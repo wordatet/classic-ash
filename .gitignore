@@ -1,0 +1,32 @@
+# Build artifacts
+*.o
+sh
+
+# Generated source files and headers
+arith.c
+arith.h
+arith_lex.c
+builtins.c
+builtins.h
+init.c
+init.c.new
+nodes.c
+nodes.h
+syntax.c
+syntax.h
+token.def
+
+# Native build tools
+mkinit
+mknodes
+mksyntax
+
+# Backups and logs
+*~
+*.bak
+*.txt
+*.tmp
+
+# Stress test reports
+valgrind_report*
+stress_*.sh (optional - can keep if intended for repo)
