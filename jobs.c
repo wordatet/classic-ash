@@ -70,10 +70,10 @@ static char sccsid[] = "@(#)jobs.c	8.5 (Berkeley) 5/4/95";
 
 struct job *jobtab;		/* array of jobs */
 int njobs;			/* size of array */
-MKINIT short backgndpid = -1;	/* pid of last background process */
+MKINIT int backgndpid = -1;	/* pid of last background process */
 #if JOBS
 int initialpgrp;		/* pgrp of shell on invocation */
-short curjob;			/* current job */
+int curjob;			/* current job */
 #endif
 
 STATIC void restartjob __P((struct job *));
