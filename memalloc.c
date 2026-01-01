@@ -203,10 +203,14 @@ popstackmark(mark)
 void
 growstackblock() {
 	char *p;
-	int newlen = stacknleft * 2 + 100;
-	char *oldspace = stacknxt;
 	int oldlen = stacknleft;
+	int newlen;
+	char *oldspace = stacknxt;
 	struct stack_block *sp;
+
+	if (oldlen > (1 << 30))
+		error("Out of space");
+	newlen = oldlen * 2 + 100;
 
 	if (stacknxt == stackp->space && stackp != &stackbase) {
 		INTOFF;

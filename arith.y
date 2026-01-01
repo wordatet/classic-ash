@@ -1,18 +1,26 @@
 %{
+#include <stdlib.h>
 #include "shell.h"
 #include "error.h"
 #include "output.h"
 #include "memalloc.h"
 
-#define YYSTYPE long
-
-int yylex __P((void));
 void yyerror __P((char *));
 long arith __P((char *));
 void arith_lex_reset __P((void));
+int yylex __P((void));
 %}
 
-%token ARITH_NUM ARITH_LPAREN ARITH_RPAREN 
+%union {
+	long l;
+	char *s;
+}
+
+%token <l> ARITH_NUM
+%token <s> ARITH_VAR
+%token ARITH_LPAREN ARITH_RPAREN 
+
+%type <l> expr exp
 
 %left ARITH_OR
 %left ARITH_AND
@@ -65,6 +73,17 @@ expr:	ARITH_LPAREN expr ARITH_RPAREN { $$ = $2; }
 	| ARITH_SUB expr %prec ARITH_UNARYMINUS { $$ = -($2); }
 	| ARITH_ADD expr %prec ARITH_UNARYPLUS { $$ = $2; }
 	| ARITH_NUM
+	| ARITH_VAR {
+			char *p;
+			extern char *lookupvar(char *);
+			extern long number(const char *);
+
+			if ((p = lookupvar((char *)$1)) == NULL || *p == '\0')
+				$$ = 0;
+			else
+				$$ = number(p);
+			free((void *)$1);
+			}
 	;
 %%
 /*-

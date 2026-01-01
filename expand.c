@@ -311,7 +311,7 @@ expari(flag)
 	 * have to rescan starting from the beginning since CTLESC
 	 * characters have to be processed left to right.  
 	 */
-	CHECKSTRSPACE(20, expdest);
+	CHECKSTRSPACE(32, expdest);
 	USTPUTC('\0', expdest); 
 	start = stackblock();
 	p = expdest;
@@ -326,7 +326,7 @@ expari(flag)
 	if (quotes)
 		rmescapes(p+1);
 	result = arith(p+1);
-	fmtstr(p, 20, "%ld", result);
+	fmtstr(p, 32, "%ld", result);
 	while (*p++)
 		;
 	result = expdest - p + 1;

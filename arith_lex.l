@@ -35,6 +35,8 @@
 static char sccsid[] = "@(#)arith_lex.l	8.3 (Berkeley) 5/4/95";
 #endif /* not lint */
 
+#include <string.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include "arith.h"
 #include "error.h"
@@ -50,7 +52,8 @@ extern char *arith_buf, *arith_startbuf;
 
 %%
 [ \t\n]	{ ; }
-[0-9]+	{ yylval = atol(yytext); return(ARITH_NUM); }
+[0-9]+	{ yylval.l = atol(yytext); return(ARITH_NUM); }
+[A-Za-z_][A-Za-z_0-9]*	{ yylval.s = strdup(yytext); return(ARITH_VAR); }
 "("	{ return(ARITH_LPAREN); }
 ")"	{ return(ARITH_RPAREN); }
 "||"	{ return(ARITH_OR); }

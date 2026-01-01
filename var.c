@@ -60,7 +60,7 @@ static char sccsid[] = "@(#)var.c	8.3 (Berkeley) 5/4/95";
 
 struct localvar *localvars;
 
-#define VTABSIZE 39
+#define VTABSIZE 257
 
 
 struct varinit {

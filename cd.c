@@ -324,7 +324,7 @@ pwdcmd(argc, argv)
  * directory, this routine returns immediately.
  */
 
-#define MAXPWD 256
+#define MAXPWD 1024
 
 STATIC void
 getpwd() {

@@ -303,19 +303,22 @@ dotrap() {
 	int savestatus;
 
 	for (;;) {
+		INTOFF;
 		for (i = 1 ; ; i++) {
+			if (i >= NSIG) {
+				pendingsigs = 0;
+				INTON;
+				return;
+			}
 			if (gotsig[i - 1])
 				break;
-			if (i >= NSIG)
-				goto done;
 		}
 		gotsig[i - 1] = 0;
+		INTON;
 		savestatus=exitstatus;
 		evalstring(trap[i]);
 		exitstatus=savestatus;
 	}
-done:
-	pendingsigs = 0;
 }
 
 
